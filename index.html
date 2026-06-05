@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — CS Researcher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --transition-speed: 0.45s; }
+
+    [data-theme="dark"] {
+      --bg:           #0c0e14;
+      --bg-2:         #111520;
+      --bg-card:      #161b28;
+      --border:       #242c3f;
+      --text:         #dde4f2;
+      --text-muted:   #7a88a8;
+      --accent-1:     #99bfe8;
+      --accent-2:     #8dd5c8;
+      --accent-3:     #f5c2c7;
+      --accent-4:     #f9dba0;
+      --tag-bg:       #1a2236;
+      --tag-text:     #99bfe8;
+      --nav-bg:       rgba(12,14,20,0.84);
+      --shadow:       0 4px 32px rgba(0,0,0,0.55);
+    }
+
+    [data-theme="light"] {
+      --bg:           #f7f9fd;
+      --bg-2:         #edf1f8;
+      --bg-card:      #ffffff;
+      --border:       #d4dcea;
+      --text:         #1e2535;
+      --text-muted:   #6478a0;
+      --accent-1:     #3a6fa8;
+      --accent-2:     #2e8b7a;
+      --accent-3:     #c1606a;
+      --accent-4:     #b88a30;
+      --tag-bg:       #deeaf8;
+      --tag-text:     #2e5c8a;
+      --nav-bg:       rgba(247,249,253,0.88);
+      --shadow:       0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'IBM Plex Sans', system-ui, sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.7;
+      transition: background var(--transition-speed), color var(--transition-speed);
+      overflow-x: hidden;
+    }
+
+    ::selection { background: var(--accent-1); color: var(--bg); }
+
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.25;
+    }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: var(--nav-bg); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background var(--transition-speed), border-color var(--transition-speed);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 600;
+      color: var(--accent-1); text-decoration: none; letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent-1); }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border); border-radius: 20px;
+      padding: 4px 12px; cursor: pointer; color: var(--text-muted);
+      font-family: 'DM Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+    }
+    .theme-toggle:hover { border-color: var(--accent-1); color: var(--accent-1); }
+    .toggle-icon { font-size: 0.9rem; }
+
+    section { position: relative; z-index: 1; }
+    .container { max-width: 920px; margin: 0 auto; padding: 0 2rem; }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 60px; overflow: hidden; }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+      padding: 6rem 2rem 4rem; max-width: 1040px; margin: 0 auto; width: 100%;
+    }
+    .hero-text { animation: fadeUp 0.9s ease both; }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent-2); margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--accent-2); }
+    h1 {
+      font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 6vw, 4.2rem);
+      font-weight: 700; line-height: 1.1; margin-bottom: 0.5rem; color: var(--text);
+    }
+    .hero-title-accent { color: var(--accent-1); }
+    .hero-role { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 1.8rem; }
+    .hero-bio { font-size: 1.02rem; color: var(--text-muted); line-height: 1.75; max-width: 440px; }
+    .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
+    .btn {
+      font-family: 'DM Mono', monospace; font-size: 0.72rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; padding: 0.7rem 1.6rem;
+      border-radius: 2px; transition: all 0.25s; cursor: pointer; border: none;
+    }
+    .btn-primary { background: var(--accent-1); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--accent-1); border: 1px solid var(--accent-1); }
+    .btn-outline:hover { background: var(--accent-1); color: var(--bg); transform: translateY(-2px); }
+
+    /* ROBOT VISUAL */
+    .hero-visual { animation: fadeUp 0.9s 0.2s ease both; display: flex; justify-content: center; align-items: center; }
+    .robot-canvas {
+      width: 300px; height: 320px; position: relative;
+    }
+    .robot-canvas svg { width: 100%; height: 100%; }
+
+    /* Robot animations */
+    @keyframes blink-eyes {
+      0%, 90%, 100% { transform: scaleY(1); }
+      95% { transform: scaleY(0.1); }
+    }
+    @keyframes think-bubble {
+      0%, 100% { opacity: 0.5; transform: scale(0.97); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes think-dot {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    @keyframes float-body {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+    @keyframes antenna-blink {
+      0%, 80%, 100% { opacity: 1; }
+      85%, 95% { opacity: 0.2; }
+    }
+    .robot-body-group { animation: float-body 3.5s ease-in-out infinite; }
+    .robot-eyes { animation: blink-eyes 4s ease-in-out infinite; transform-origin: center; }
+    .think-bubble { animation: think-bubble 2.5s ease-in-out infinite; transform-origin: center; }
+    .think-dot-1 { animation: think-dot 2.5s ease-in-out infinite 0s; }
+    .think-dot-2 { animation: think-dot 2.5s ease-in-out infinite 0.3s; }
+    .think-dot-3 { animation: think-dot 2.5s ease-in-out infinite 0.6s; }
+    .antenna-dot { animation: antenna-blink 2s ease-in-out infinite; }
+
+    /* ABOUT */
+    #about { padding: 8rem 0 6rem; background: var(--bg-2); transition: background var(--transition-speed); }
+    .section-label {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent-2); margin-bottom: 1rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); max-width: 60px; }
+    h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 700; margin-bottom: 2rem; line-height: 1.2; }
+
+    .about-grid { display: grid; grid-template-columns: 180px 1fr 180px; gap: 3rem; align-items: start; }
+
+    /* photo */
+    .about-photo { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+    .photo-frame {
+      width: 150px; height: 150px; border-radius: 8px;
+      border: 2px solid var(--border); overflow: hidden; position: relative;
+      background: var(--bg-card); transition: border-color 0.3s;
+    }
+    .photo-frame:hover { border-color: var(--accent-1); }
+    .photo-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .photo-placeholder {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem; background: var(--tag-bg);
+    }
+    .photo-placeholder-icon { font-size: 2.2rem; opacity: 0.35; }
+    .photo-placeholder-text {
+      font-family: 'DM Mono', monospace; font-size: 0.52rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-muted); text-align: center; padding: 0 0.5rem; line-height: 1.5;
+    }
+    .photo-caption {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); opacity: 0.7;
+    }
+
+    .about-text p { color: var(--text-muted); margin-bottom: 1.2rem; font-size: 1rem; }
+    .interest-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.8rem; }
+    .pill {
+      font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em;
+      padding: 0.35rem 0.9rem; border-radius: 20px;
+      background: var(--tag-bg); color: var(--tag-text);
+      border: 1px solid transparent; transition: all 0.2s;
+    }
+    .pill:hover { border-color: var(--accent-1); }
+
+    .about-sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
+    .info-block {
+      padding: 1rem 1.2rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px;
+      transition: background var(--transition-speed), border-color var(--transition-speed);
+    }
+    .info-block-label {
+      font-family: 'DM Mono', monospace; font-size: 0.6rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-3); margin-bottom: 0.4rem;
+    }
+    .info-block-value { font-size: 0.9rem; color: var(--text); }
+
+    /* PROJECTS */
+    #projects { padding: 8rem 0; }
+    .projects-header { margin-bottom: 3.5rem; }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px,1fr)); gap: 1.5rem; }
+    .project-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s, background var(--transition-speed);
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--card-accent, var(--accent-1));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+    }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { border-color: var(--card-accent, var(--accent-1)); transform: translateY(-4px); box-shadow: var(--shadow); }
+    .project-card:nth-child(1) { --card-accent: var(--accent-1); }
+    .project-card:nth-child(2) { --card-accent: var(--accent-2); }
+    .project-card:nth-child(3) { --card-accent: var(--accent-3); }
+    .project-card:nth-child(4) { --card-accent: var(--accent-4); }
+    .project-type { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--card-accent, var(--accent-1)); margin-bottom: 0.8rem; }
+    .project-title { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; line-height: 1.3; }
+    .project-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 1.4rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.05em; padding: 0.25rem 0.7rem; border-radius: 2px; background: var(--tag-bg); color: var(--text-muted); }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--card-accent, var(--accent-1)); text-decoration: none; margin-top: 1.2rem; transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 0.7rem; }
+
+    /* CONTACT */
+    #contact { padding: 8rem 0; background: var(--bg-2); transition: background var(--transition-speed); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+    .contact-left h2 { margin-bottom: 1rem; }
+    .contact-blurb { color: var(--text-muted); font-size: 0.97rem; line-height: 1.75; margin-bottom: 2.5rem; }
+    .social-links { display: flex; flex-direction: column; gap: 0.6rem; }
+    .social-link {
+      display: flex; align-items: center; gap: 1rem; text-decoration: none;
+      padding: 0.9rem 1.2rem; border: 1px solid var(--border); border-radius: 4px;
+      transition: all 0.25s; background: var(--bg-card);
+    }
+    .social-link:hover { border-color: var(--link-color, var(--accent-1)); transform: translateX(4px); }
+    .social-link:nth-child(1) { --link-color: var(--accent-1); }
+    .social-link:nth-child(2) { --link-color: var(--accent-2); }
+    .social-link:nth-child(3) { --link-color: var(--accent-3); }
+    .social-link:nth-child(4) { --link-color: var(--accent-4); }
+    .social-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--tag-bg); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; color: var(--link-color, var(--accent-1)); }
+    .social-info { flex: 1; }
+    .social-platform { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.15rem; }
+    .social-handle { font-size: 0.9rem; color: var(--text); }
+    .social-arrow { color: var(--text-muted); font-size: 0.9rem; transition: transform 0.2s, color 0.2s; }
+    .social-link:hover .social-arrow { transform: translateX(4px); color: var(--link-color, var(--accent-1)); }
+    .contact-right { padding-top: 2rem; }
+    .pull-quote {
+      font-family: 'IBM Plex Sans', sans-serif; font-size: 1.25rem; font-weight: 300; line-height: 1.65;
+      color: var(--text-muted); border-left: 2px solid var(--accent-1); padding-left: 1.5rem; margin-bottom: 2rem;
+    }
+    .pull-quote span { color: var(--accent-1); font-weight: 500; }
+    .location-line { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
+
+    footer { text-align: center; padding: 2rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: var(--text-muted); border-top: 1px solid var(--border); transition: border-color var(--transition-speed); }
+
+    @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:none; } }
+    @keyframes blink  { 0%,100%{opacity:1;} 50%{opacity:0;} }
+
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:none; }
+
+    @media (max-width: 860px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-photo { flex-direction: row; align-items: flex-start; }
+      .photo-frame { width: 100px; height: 100px; }
+    }
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; }
+      .hero-visual { display: none; }
+      .contact-inner, .projects-grid { grid-template-columns: 1fr; }
+      .nav-links li:not(:last-child) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Ramya Namuduri</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Research</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li>
+      <button class="theme-toggle" id="themeToggle">
+        <span class="toggle-icon" id="toggleIcon">☀</span>
+        <span id="toggleLabel">Light</span>
+      </button>
+    </li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Computer Scientist · NLP</p>
+      <h1>Ramya <span class="hero-title-accent">Namuduri</span></h1>
+      <p class="hero-role">Affiliate Researcher · UT Austin</p>
+      <p class="hero-bio">
+        I study how large language models generate creative text — probing the boundaries
+        of machine imagination, novelty, and expression through a computational lens.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Research</a>
+        <a href="#contact"  class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+
+    <!-- Thinking Robot SVG -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="robot-canvas">
+        <svg viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg" fill="none">
+          <defs>
+            <!-- Robot body stroke color adapts to theme via CSS var -->
+          </defs>
+
+          <!-- Thought bubble chain (top left of head) -->
+          <g class="think-bubble">
+            <!-- Small dot 1 -->
+            <circle class="think-dot-1" cx="80" cy="88" r="4" fill="none" stroke="var(--accent-1)" stroke-width="1.5" opacity="0.6"/>
+            <!-- Small dot 2 -->
+            <circle class="think-dot-2" cx="66" cy="70" r="6" fill="none" stroke="var(--accent-1)" stroke-width="1.5" opacity="0.7"/>
+            <!-- Small dot 3 -->
+            <circle class="think-dot-3" cx="50" cy="48" r="8" fill="none" stroke="var(--accent-1)" stroke-width="1.5" opacity="0.8"/>
+            <!-- Main thought bubble -->
+            <rect x="6" y="6" width="100" height="46" rx="14" fill="var(--bg-card)" stroke="var(--accent-1)" stroke-width="1.5"/>
+            <!-- Dots inside bubble (thinking...) -->
+            <circle cx="34" cy="29" r="4" fill="var(--accent-1)" opacity="0.9">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite" begin="0s"/>
+            </circle>
+            <circle cx="56" cy="29" r="4" fill="var(--accent-1)" opacity="0.9">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite" begin="0.3s"/>
+            </circle>
+            <circle cx="78" cy="29" r="4" fill="var(--accent-1)" opacity="0.9">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite" begin="0.6s"/>
+            </circle>
+          </g>
+
+          <!-- ── ROBOT BODY GROUP (floats) ── -->
+          <g class="robot-body-group">
+
+            <!-- Antenna -->
+            <line x1="174" y1="96" x2="174" y2="75" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round"/>
+            <circle class="antenna-dot" cx="174" cy="70" r="6" fill="var(--accent-2)" opacity="0.9"/>
+
+            <!-- HEAD -->
+            <rect x="128" y="96" width="92" height="72" rx="14"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="2"/>
+
+            <!-- Eyes (blink via scaleY transform) -->
+            <g class="robot-eyes">
+              <rect x="143" y="116" width="22" height="14" rx="4" fill="var(--accent-1)" opacity="0.9"/>
+              <rect x="183" y="116" width="22" height="14" rx="4" fill="var(--accent-1)" opacity="0.9"/>
+            </g>
+
+            <!-- Mouth / speaker grille — 3 tiny lines -->
+            <line x1="155" y1="148" x2="193" y2="148" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <line x1="160" y1="155" x2="188" y2="155" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+            <line x1="165" y1="162" x2="183" y2="162" stroke="var(--text-muted)" stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+
+            <!-- Neck -->
+            <rect x="161" y="168" width="26" height="12" rx="4"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+
+            <!-- TORSO -->
+            <rect x="118" y="180" width="112" height="80" rx="10"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="2"/>
+
+            <!-- Torso detail: small screen / panel -->
+            <rect x="136" y="196" width="76" height="46" rx="6"
+              fill="var(--tag-bg)" stroke="var(--border)" stroke-width="1"/>
+            <!-- Screen content — blinking lines like code -->
+            <line x1="146" y1="208" x2="186" y2="208" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" opacity="0.8">
+              <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+            </line>
+            <line x1="146" y1="218" x2="174" y2="218" stroke="var(--accent-1)" stroke-width="1.5" stroke-linecap="round" opacity="0.6">
+              <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+            </line>
+            <line x1="146" y1="228" x2="200" y2="228" stroke="var(--accent-4)" stroke-width="1.5" stroke-linecap="round" opacity="0.5">
+              <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite" begin="0.8s"/>
+            </line>
+            <line x1="146" y1="238" x2="166" y2="238" stroke="var(--accent-2)" stroke-width="1.5" stroke-linecap="round" opacity="0.7">
+              <animate attributeName="opacity" values="0.7;0.2;0.7" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+            </line>
+
+            <!-- LEFT ARM -->
+            <rect x="88" y="183" width="28" height="62" rx="10"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+            <!-- Left hand -->
+            <circle cx="102" cy="254" r="10"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+
+            <!-- RIGHT ARM -->
+            <rect x="232" y="183" width="28" height="62" rx="10"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+            <!-- Right hand — raised / waving slightly -->
+            <circle cx="246" cy="254" r="10"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+
+            <!-- LEGS -->
+            <rect x="136" y="262" width="34" height="46" rx="8"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+            <rect x="178" y="262" width="34" height="46" rx="8"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+
+            <!-- FEET -->
+            <rect x="128" y="300" width="48" height="16" rx="6"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+            <rect x="172" y="300" width="48" height="16" rx="6"
+              fill="var(--bg-card)" stroke="var(--border)" stroke-width="1.5"/>
+
+          </g><!-- end robot-body-group -->
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-photo reveal">
+        <div class="photo-frame">
+          <img src="#" alt="Your Name" id="profileImg" style="display:none" />
+          <div class="photo-placeholder" id="photoPlaceholder">
+            <div class="photo-placeholder-icon">🧑‍💻</div>
+            <div class="photo-placeholder-text">Replace src with your photo path</div>
+          </div>
+        </div>
+        <p class="photo-caption">Ramya Namuduri</p>
+      </div>
+
+      <div class="about-text reveal" style="transition-delay:0.1s">
+        <p class="section-label">About me</p>
+        <h2>Building at the frontier of AI &amp; creativity</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum
+          primis in faucibus orci luctus et ultrices posuere cubilia curae; pellentesque
+          habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+        </p>
+        <p>
+          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+          commodo consequat.
+        </p>
+        <p>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+          fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+          culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+        <div class="interest-pills">
+          <span class="pill">LLM Creativity</span>
+          <span class="pill">Text Generation</span>
+          <span class="pill">Evaluation &amp; Benchmarking</span>
+          <span class="pill">Computational Creativity</span>
+          <span class="pill">Human–AI Co-creation</span>
+          <span class="pill">NLP Systems</span>
+        </div>
+      </div>
+
+      <div class="about-sidebar reveal" style="transition-delay:0.2s">
+        <div class="info-block">
+          <div class="info-block-label">Affiliation</div>
+          <div class="info-block-value">UT Austin</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Role</div>
+          <div class="info-block-value">Affiliate Researcher</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Field</div>
+          <div class="info-block-value">CS / NLP</div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-label">Location</div>
+          <div class="info-block-value">Austin, TX</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="projects-header reveal">
+      <p class="section-label">Research</p>
+      <h2>Selected Projects</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-type">Research Paper</div>
+        <div class="project-title">Measuring Novelty in LLM-Generated Text</div>
+        <p class="project-desc">
+          A suite of metrics to quantify semantic and structural novelty in text produced
+          by large language models, with applications to story generation and open-ended
+          creative tasks.
+        </p>
+        <div class="project-tags">
+          <span class="tag">LLMs</span><span class="tag">Creativity</span>
+          <span class="tag">Evaluation</span><span class="tag">Text Generation</span>
+        </div>
+        <a href="#" class="project-link">Read paper →</a>
+      </div>
+
+      <!-- <div class="project-card reveal" style="transition-delay:0.1s">
+        <div class="project-type">Ongoing Project</div>
+        <div class="project-title">Human–AI Co-authorship Dynamics</div>
+        <p class="project-desc">
+          Studying how writers interact with LLM-based writing assistants and whether
+          AI suggestions expand or constrain the creative range of human authors.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Human–AI</span><span class="tag">Co-creation</span>
+          <span class="tag">User Studies</span>
+        </div>
+        <a href="#" class="project-link">View project →</a>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:0.2s">
+        <div class="project-type">Workshop Paper</div>
+        <div class="project-title">Do LLMs Dream of Electric Metaphors?</div>
+        <p class="project-desc">
+          A probing study of how transformer models represent figurative language —
+          metaphor, analogy, and simile — and whether representations correlate with
+          judged creative quality.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Figurative Language</span><span class="tag">Probing</span>
+          <span class="tag">Transformers</span>
+        </div>
+        <a href="#" class="project-link">Read paper →</a>
+      </div>
+
+      <div class="project-card reveal" style="transition-delay:0.3s">
+        <div class="project-type">Tool / Dataset</div>
+        <div class="project-title">CreativeBench: Evaluating LLM Imagination</div>
+        <p class="project-desc">
+          An open benchmark for assessing the creative output of language models across
+          poetry, story prompts, and analogies — using both automated metrics and human ratings.
+        </p>
+        <div class="project-tags">
+          <span class="tag">Dataset</span><span class="tag">Benchmark</span>
+          <span class="tag">Open Source</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div> -->
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <p class="section-label">Contact</p>
+        <h2>Let's connect</h2>
+        <p class="contact-blurb">
+          Interested in LLM creativity, evaluation, or human–AI collaboration? I'd love to
+          hear from you — whether it's a research collab, a question, or just a good idea.
+        </p>
+        <div class="social-links">
+          <a href="mailto:you@example.com" class="social-link">
+            <div class="social-icon">✉</div>
+            <div class="social-info">
+              <div class="social-platform">Email</div>
+              <div class="social-handle">you@example.com</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+          <a href="https://github.com/yourusername" target="_blank" class="social-link">
+            <div class="social-icon">⌥</div>
+            <div class="social-info">
+              <div class="social-platform">GitHub</div>
+              <div class="social-handle">@yourusername</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+          <a href="https://scholar.google.com" target="_blank" class="social-link">
+            <div class="social-icon">◈</div>
+            <div class="social-info">
+              <div class="social-platform">Google Scholar</div>
+              <div class="social-handle">Your Name</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+          <a href="https://twitter.com/yourusername" target="_blank" class="social-link">
+            <div class="social-icon">✦</div>
+            <div class="social-info">
+              <div class="social-platform">Twitter / X</div>
+              <div class="social-handle">@yourusername</div>
+            </div>
+            <span class="social-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-right reveal" style="transition-delay:0.15s">
+        <blockquote class="pull-quote">
+          "Creativity is intelligence
+          <span>having fun.</span>"
+          <br><br>
+          <small style="font-size:0.7em;font-family:'DM Mono',monospace;letter-spacing:0.1em;font-weight:400;color:var(--text-muted)">— attr. Albert Einstein</small>
+        </blockquote>
+        <p class="location-line"><span>📍</span> Austin, Texas — Open to remote collaboration worldwide</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Your Name · Built with care · Austin, TX</p></footer>
+
+<script>
+  // Theme toggle
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('themeToggle');
+  const toggleIcon = document.getElementById('toggleIcon');
+  const toggleLabel = document.getElementById('toggleLabel');
+  toggleBtn.addEventListener('click', () => {
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    toggleIcon.textContent  = isDark ? '☾' : '☀';
+    toggleLabel.textContent = isDark ? 'Dark' : 'Light';
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Photo placeholder
+  const img = document.getElementById('profileImg');
+  const ph  = document.getElementById('photoPlaceholder');
+  if (img && img.getAttribute('src') !== '#' && img.getAttribute('src') !== '') {
+    img.style.display = 'block'; ph.style.display = 'none';
+  }
+</script>
+</body>
+</html>
