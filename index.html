@@ -103,12 +103,12 @@
     }
     .hero-text { animation: fadeUp 0.9s ease both; }
     .hero-eyebrow {
-      font-family: 'DM Mono', monospace; font-size: 0.7rem;
-      letter-spacing: 0.2em; text-transform: uppercase;
+      font-family: 'DM Mono', monospace; font-size: 1.05rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
       color: var(--accent-2); margin-bottom: 1.2rem;
       display: flex; align-items: center; gap: 0.8rem;
     }
-    .hero-eyebrow::before { content: ''; display: inline-block; width: 30px; height: 1px; background: var(--accent-2); }
+    .hero-eyebrow::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--accent-2); }
     h1 {
       font-family: 'Syne', sans-serif; font-size: clamp(2.8rem, 6vw, 4.2rem);
       font-weight: 700; line-height: 1.1; margin-bottom: 0.5rem; color: var(--text);
@@ -116,6 +116,13 @@
     .hero-title-accent { color: var(--accent-1); }
     .hero-role { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 1.8rem; }
     .hero-bio { font-size: 1.02rem; color: var(--text-muted); line-height: 1.75; max-width: 440px; }
+    .hero-bio + .hero-bio { margin-top: 1.4rem; }
+    .hero-questions { list-style: none; margin: 1rem 0 0 1.25rem; max-width: 420px; display: flex; flex-direction: column; gap: 0.7rem; }
+    .hero-questions li {
+      color: var(--text-muted); font-size: 1rem; line-height: 1.55;
+      padding-left: 1rem; border-left: 2px solid var(--accent-2);
+    }
+    .now-lede { color: var(--text-muted); max-width: 520px; margin: -1rem 0 0; }
     .hero-cta { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; }
     .btn {
       font-family: 'DM Mono', monospace; font-size: 0.72rem;
@@ -238,6 +245,19 @@
     /* PROJECTS */
     #projects { padding: 3rem 0; background: var(--bg-2)}
     .projects-header { margin-bottom: 3.5rem; }
+
+    /* CURRENTLY IN THE MIDDLE OF */
+    #now { padding: 5rem 0 6rem; background: var(--bg); transition: background var(--transition-speed); }
+    .now-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .now-item { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2rem; }
+    .now-item svg { width: 100%; max-width: 210px; height: auto; overflow: visible; }
+    .now-item svg * { transition: stroke var(--transition-speed), fill var(--transition-speed); }
+    .now-caption {
+      font-family: 'DM Mono', monospace; font-size: 0.68rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-muted);
+    }
+    .spine-author { font-family: 'DM Mono', monospace; font-weight: 500; font-size: 6.5px; letter-spacing: 0.08em; }
+    .spine-text { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.04em; }
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px,1fr)); gap: 1.5rem; }
     .project-card {
       background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; padding: 2rem;
@@ -340,6 +360,11 @@
       padding-left: 0.5rem;
     }
 
+    /* Whole row opens the paper (wired up in the script below) */
+    .pub-item.has-paper { cursor: pointer; }
+    .pub-item.has-paper .pub-paper-title { transition: color 0.2s; }
+    .pub-item.has-paper:hover .pub-paper-title { color: var(--accent-1); }
+
     /* Metadata styling (Year / Venue) */
     .pub-meta {
       display: flex;
@@ -417,8 +442,8 @@
 
     /* Setup the base style for your name */
     .pub-authors strong {
-      color: var(--text-main);
-      font-weight: normal;
+      color: var(--text); /* near-white in dark mode, near-black in light mode */
+      font-weight: 500;
       position: relative;
       display: inline-block;
       text-decoration: underline;
@@ -491,6 +516,7 @@
       .hero-inner { grid-template-columns: 1fr; padding: 5rem 1.5rem 3rem; }
       .hero-visual { display: none; }
       .contact-inner, .projects-grid { grid-template-columns: 1fr; }
+      .now-grid { grid-template-columns: 1fr; gap: 3rem; }
       .nav-links li:not(:last-child) { display: none; }
     }
   </style>
@@ -498,7 +524,7 @@
 <body>
 
 <nav>
-  <a href="#title" class="nav-logo">Ramya Namuduri</a>
+  <a href="#" class="nav-logo">AlLiteraryAlLigator</a>
   <ul class="nav-links">
     <!-- <li><a href="#about">About</a></li> -->
     <li><a href="#projects">Research</a></li>
@@ -515,24 +541,26 @@
 <section id="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <p class="hero-eyebrow">Computer Scientist · NLP</p>
+      <p class="hero-eyebrow">Alligator spotted!</p>
       <h1>Ramya <span class="hero-title-accent">Namuduri</span></h1>
       <!-- <p class="hero-role">Affiliate Researcher · UT Austin</p> -->
       <p class="hero-bio">
-        I am an incoming PhD student at the University of Maryland, advised by Professor Mohit Iyyer!
-        I was previously an undergrad and an affiliate researcher at The University of Texas at Austin, co-advised by Professor Jessy Li and Professor Greg Durrett.
+        I'm a PhD student at the University of Maryland, College Park, advised by Mohit Iyyer.
+        I was previously at the University of Texas at Austin as an undergrad and affiliate researcher, co-advised by Jessy Li and Greg Durrett.
       </p>
-      <p></p>
       <p class="hero-bio">
-        My current interests are in evaluating and improving creative capabilities of Large Language Models on open-ended tasks,
-        specifically those that are challenging to formalize and quantify.
-        I'm particularly interested in understanding why models struggle to provide surprising and unique responses,
-        and how we can mitigate these issues to build more creative collaborators!
+        I like thinking about why large language models aren't
+        diverse or creative enough at open-ended tasks:
       </p>
+      <ul class="hero-questions">
+        <li>How do we evaluate creativity?</li>
+        <li>Why do models struggle to generate diverse responses?</li>
+        <li>What can we do to help improve creative capabilities in LLMs?</li>
+      </ul>
       
-      <div class="hero-cta">
+      <!-- <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Research</a>
-      </div>
+      </div> -->
     </div>
 
     <div class="about-photo reveal">
@@ -608,6 +636,19 @@
 
       <li class="pub-item">
         <div class="pub-meta">
+          <span class="pub-year">2026</span>
+        </div>
+        <div class="pub-content">
+          <div class="pub-paper-title">IdeaLens: Detecting AI Ideas in Long-form Writing</div>
+          <div class="pub-authors">Rishanth Rajendhran, Minjoon Choi, Jenna Russel, <strong>Ramya Namuduri</strong>, Deniz Bölöni-Turgut, Marzena Karpinska, John Wieting, Mohit Iyyer</div>
+          <div class="pub-venue">Preprint</div>
+          <a href="https://arxiv.org/abs/2610.06778" class="pub-inline-link">[Paper]</a>
+          <a href="https://ideadetector.ai" class="pub-inline-link">[Demo]</a>
+        </div>
+      </li>
+
+      <li class="pub-item">
+        <div class="pub-meta">
           <span class="pub-year">2025</span>
         </div>
         <div class="pub-content">
@@ -625,7 +666,7 @@
         <div class="pub-content">
           <div class="pub-paper-title">QUDsim: Quantifying Discourse Similarities in LLM-Generated Text</div>
           <div class="pub-authors"><strong>Ramya Namuduri</strong>, Yating Wu, Anshun Asher Zheng, Manya Wadhwa, Greg Durrett, and Junyi Jessy Li.</div>
-          <div class="pub-venue">COLM 2026/div>
+          <div class="pub-venue">COLM 2026</div>
 
           <a href="https://arxiv.org/abs/2504.09373" class="pub-inline-link">[Paper]</a>
           <a href="https://github.com/AlliteraryAlligator/QUDsim" class="pub-inline-link">[Code]</a>
@@ -635,6 +676,124 @@
       
     </ol>
     
+  </div>
+</section>
+
+
+<section id="now">
+  <div class="container">
+    <div class="projects-header reveal">
+      <p class="section-label">Currently</p>
+      <h2>In the middle of</h2>
+      <p class="now-lede">These days, I find myself reading a lot of slop-books and slop-stories, and watching movies as palate cleansers 😓</p>
+    </div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <filter id="sketchy">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="3"/>
+        <feDisplacementMap in="SourceGraphic" scale="2.5"/>
+      </filter>
+    </svg>
+    <div class="now-grid">
+
+      <!-- Two books -->
+      <figure class="now-item reveal">
+        <svg viewBox="0 0 200 240" role="img" aria-label="Two books standing side by side, with spines reading The Goldfinch and The Silmarillion" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <g filter="url(#sketchy)">
+          <!-- shelf -->
+          <path d="M18,215 Q100,213 190,215" stroke="var(--border)"/>
+          <!-- The Goldfinch: upright, seen slightly from the side so the cover board shows -->
+          <path d="M84,40 C85,31 81,25 85,16 L90,18 C87,26 91,32 89,40" fill="var(--accent-3)" fill-opacity="0.5" stroke="var(--accent-3)" stroke-width="1.5"/>
+          <path d="M92,41 L101,45 Q102,128 100,210 L91,212" fill="var(--accent-4)" fill-opacity="0.08" stroke="var(--accent-4)" stroke-width="1.5"/>
+          <path d="M41,41 Q66,37 92,41 Q93.5,128 91,212 Q66,215 40,212 Q39,128 41,41 Z" fill="var(--accent-4)" fill-opacity="0.2" stroke="var(--accent-4)"/>
+          <path d="M40.5,55 Q66,52 92,55 M40.5,60 Q66,57 92,60" stroke="var(--accent-4)" stroke-width="1"/>
+          <path d="M40,193 Q66,190 91.5,193 M40,198 Q66,195 91.5,198" stroke="var(--accent-4)" stroke-width="1"/>
+          <!-- tiny goldfinch -->
+          <path d="M61,205 q3,-3 6,-0.5 l3,-1 l-2,2 q-1,2.5 -4,2.5 q-2,0 -3,-3 z" fill="var(--accent-4)" stroke="none"/>
+          <text class="spine-author" x="66" y="49" text-anchor="middle" dominant-baseline="middle" fill="var(--accent-4)" stroke="none">TARTT</text>
+          <text class="spine-text" x="66" y="126" text-anchor="middle" dominant-baseline="middle" fill="var(--accent-4)" stroke="none" transform="rotate(90 66 126)">The Goldfinch</text>
+          <!-- The Silmarillion: thinner, leaning well over onto The Goldfinch -->
+          <g transform="rotate(-17 141 214)">
+            <path d="M142,70 L148,64 Q166,62 184,64 L179,70" fill="var(--bg)" stroke="var(--accent-1)" stroke-width="1.5"/>
+            <path d="M147,67 Q165,65 181,67" stroke="var(--accent-1)" stroke-width="0.8" stroke-opacity="0.6"/>
+            <path d="M142,70 Q160,67 179,70 Q180.5,142 178,212 Q160,215 141,213 Q140,142 142,70 Z" fill="var(--accent-1)" fill-opacity="0.2" stroke="var(--accent-1)"/>
+            <path d="M141.5,84 Q160,81 179,84" stroke="var(--accent-1)" stroke-width="1.2"/>
+            <path d="M141,198 Q160,195 178.5,198" stroke="var(--accent-1)" stroke-width="1.2"/>
+            <path d="M157,205.5 l3,-6 l3,6 l-5,-3.8 h6 z" fill="var(--accent-1)" stroke="none"/>
+            <text class="spine-author" x="160.5" y="77.5" text-anchor="middle" dominant-baseline="middle" fill="var(--accent-1)" stroke="none">TOLKIEN</text>
+            <text class="spine-text" x="160" y="140" text-anchor="middle" dominant-baseline="middle" fill="var(--accent-1)" stroke="none" transform="rotate(90 160 140)">The Silmarillion</text>
+          </g>
+          </g>
+        </svg>
+        <figcaption class="now-caption">Reading</figcaption>
+      </figure>
+
+      <!-- Violin -->
+      <figure class="now-item reveal">
+        <svg viewBox="0 0 200 240" role="img" aria-label="A violin and bow" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <g filter="url(#sketchy)">
+          <g transform="rotate(-14 100 130)">
+            <!-- body -->
+            <path d="M100,108 C132,104 142,130 128,148 C121,156 118,157 120,165 C140,172 146,204 126,216 C116,222 108,222 100,222 C92,222 84,222 74,216 C54,204 60,172 80,165 C82,157 79,156 72,148 C58,130 68,104 100,108 Z" fill="var(--accent-3)" fill-opacity="0.18" stroke="var(--accent-3)"/>
+            <!-- neck, pegbox, scroll -->
+            <rect x="95" y="58" width="10" height="92" rx="2" fill="var(--accent-3)" fill-opacity="0.35" stroke="var(--accent-3)"/>
+            <rect x="93" y="38" width="14" height="22" rx="3" stroke="var(--accent-3)"/>
+            <circle cx="100" cy="30" r="8" stroke="var(--accent-3)"/>
+            <!-- f-holes -->
+            <path d="M85,150 C80,157 90,162 85,174" stroke="var(--accent-3)"/>
+            <path d="M115,150 C120,157 110,162 115,174" stroke="var(--accent-3)"/>
+            <!-- strings, bridge, tailpiece -->
+            <line x1="97.5" y1="60" x2="97.5" y2="192" stroke="var(--text-muted)" stroke-width="1"/>
+            <line x1="102.5" y1="60" x2="102.5" y2="192" stroke="var(--text-muted)" stroke-width="1"/>
+            <line x1="90" y1="180" x2="110" y2="180" stroke="var(--accent-3)"/>
+            <path d="M95,190 L105,190 L102,216 L98,216 Z" stroke="var(--accent-3)"/>
+          </g>
+          <!-- bow, resting beside the violin -->
+          <line x1="150" y1="38" x2="190" y2="206" stroke="var(--accent-4)"/>
+          <line x1="145" y1="46" x2="182" y2="200" stroke="var(--accent-4)" stroke-width="1" stroke-opacity="0.6"/>
+          <path d="M180,198 L189,196 L192,208 L184,210 Z" fill="var(--accent-4)" fill-opacity="0.4" stroke="var(--accent-4)" stroke-width="1.5"/>
+          </g>
+        </svg>
+        <figcaption class="now-caption">Learning</figcaption>
+      </figure>
+
+      <!-- Old-fashioned film camera -->
+      <figure class="now-item reveal">
+        <svg viewBox="0 0 200 240" role="img" aria-label="An old-fashioned film camera on a tripod" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <g filter="url(#sketchy)">
+          <!-- tripod -->
+          <line x1="95" y1="182" x2="58" y2="226" stroke="var(--text-muted)"/>
+          <line x1="95" y1="182" x2="132" y2="226" stroke="var(--text-muted)"/>
+          <line x1="95" y1="182" x2="95" y2="226" stroke="var(--text-muted)"/>
+          <!-- film reels, side by side with a small gap -->
+          <circle cx="68" cy="82" r="24" fill="var(--accent-2)" fill-opacity="0.12" stroke="var(--accent-2)"/>
+          <circle cx="68" cy="82" r="4.5" stroke="var(--accent-2)"/>
+          <circle cx="68" cy="69" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="68" cy="95" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="55" cy="82" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="81" cy="82" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="124" cy="82" r="24" fill="var(--accent-2)" fill-opacity="0.12" stroke="var(--accent-2)"/>
+          <circle cx="124" cy="82" r="4.5" stroke="var(--accent-2)"/>
+          <circle cx="124" cy="69" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="124" cy="95" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="111" cy="82" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <circle cx="137" cy="82" r="3.5" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <!-- body -->
+          <path d="M52,110 Q98,107 138,111 Q145,112 144,119 Q146,148 143,176 Q142,183 135,182 Q95,185 54,181 Q46,180 47,173 Q45,142 48,116 Q48,110 52,110 Z" fill="var(--accent-2)" fill-opacity="0.12" stroke="var(--accent-2)"/>
+          <!-- film threading from reels into the body -->
+          <path d="M68,106 Q80,112 96,107 Q112,112 124,106" stroke="var(--accent-2)" stroke-width="1.5"/>
+          <!-- lens -->
+          <path d="M144,124 Q160,119 172,113 Q180,142 172,171 Q160,166 144,160 Q147,142 144,124 Z" fill="var(--accent-2)" fill-opacity="0.12" stroke="var(--accent-2)"/>
+          <path d="M159,118 Q164,142 159,166" stroke="var(--accent-2)" stroke-width="1"/>
+          <!-- crank and viewfinder -->
+          <line x1="46" y1="146" x2="30" y2="146" stroke="var(--accent-2)"/>
+          <circle cx="26" cy="146" r="4" stroke="var(--accent-2)"/>
+          <rect x="64" y="124" width="26" height="16" rx="2" stroke="var(--accent-2)"/>
+          </g>
+        </svg>
+        <figcaption class="now-caption">Screenwriting</figcaption>
+      </figure>
+
+    </div>
   </div>
 </section>
 
@@ -667,6 +826,105 @@
     img.style.display = 'block'; 
     // ph.style.display = 'none';
   }
+
+  // Clicking anywhere on a publication opens its [Paper] link
+  document.querySelectorAll('.pub-item').forEach(item => {
+    const paper = [...item.querySelectorAll('.pub-inline-link')].find(a => a.textContent.trim() === '[Paper]');
+    if (!paper) return;
+    item.classList.add('has-paper');
+    item.addEventListener('click', e => {
+      if (e.target.closest('a')) return;              // let Code/Data/Demo links work normally
+      if (window.getSelection().toString()) return;   // don't hijack text selection
+      if (e.metaKey || e.ctrlKey) window.open(paper.href, '_blank');
+      else window.location.href = paper.href;
+    });
+  });
+
+  // Alligator footprints that trail the cursor and fade out
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(hover: hover)').matches) return;
+
+    const STRIDE = 30, LIFE = 3200, MAX_ALPHA = 0.3, SIZE = 11;
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = innerWidth * dpr;
+      canvas.height = innerHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    addEventListener('resize', resize);
+
+    const prints = [];
+    let last = null, side = 1, running = false;
+
+    addEventListener('mousemove', e => {
+      if (!last) { last = { x: e.clientX, y: e.clientY }; return; }
+      const dx = e.clientX - last.x, dy = e.clientY - last.y;
+      if (Math.hypot(dx, dy) < STRIDE) return;
+      const angle = Math.atan2(dy, dx);
+      // One foot per step, alternating left and right like walking
+      prints.push({
+        x: e.clientX + Math.cos(angle + Math.PI / 2) * side * 10,
+        y: e.clientY + Math.sin(angle + Math.PI / 2) * side * 10,
+        angle, side, born: performance.now()
+      });
+      side = -side;
+      last = { x: e.clientX, y: e.clientY };
+      if (!running) { running = true; requestAnimationFrame(draw); }
+    });
+
+    function drawFoot(p, alpha) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle + Math.PI / 2); // toes point along travel direction
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = getComputedStyle(html).getPropertyValue('--accent-2').trim() || '#8dd5c8';
+      // One path, filled once, so overlapping parts don't double up in opacity
+      const L = SIZE * 1.7, webR = L * 0.66;
+      const angles = [-0.6, -0.2, 0.2, 0.6]; // four toes
+      const pt = (a, r) => [Math.sin(a) * r, -Math.cos(a) * r];
+      ctx.beginPath();
+      // Palm
+      ctx.ellipse(0, SIZE * 0.2, SIZE * 0.5, SIZE * 0.6, 0, 0, Math.PI * 2);
+      // Webbing: scalloped fan between the toes
+      ctx.moveTo(0, 0);
+      let [wx, wy] = pt(angles[0], webR);
+      ctx.lineTo(wx, wy);
+      for (let i = 1; i < angles.length; i++) {
+        const [cx, cy] = pt((angles[i - 1] + angles[i]) / 2, webR * 0.8);
+        [wx, wy] = pt(angles[i], webR);
+        ctx.quadraticCurveTo(cx, cy, wx, wy);
+      }
+      ctx.closePath();
+      // Toes, joined to the palm
+      angles.forEach(a => {
+        const [cx, cy] = pt(a, L / 2);
+        ctx.moveTo(cx + Math.cos(a) * SIZE * 0.14, cy + Math.sin(a) * SIZE * 0.14);
+        ctx.ellipse(cx, cy, SIZE * 0.14, L / 2, a, 0, Math.PI * 2);
+      });
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw(now) {
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      for (let i = prints.length - 1; i >= 0; i--) {
+        const t = (now - prints[i].born) / LIFE;
+        if (t >= 1) { prints.splice(i, 1); continue; }
+        drawFoot(prints[i], MAX_ALPHA * (1 - t));
+      }
+      if (prints.length) requestAnimationFrame(draw);
+      else running = false;
+    }
+  })();
 </script>
 </body>
 </html>
+
